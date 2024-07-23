@@ -1,57 +1,76 @@
-async function bubbleSort() {
-  let isSorted = false;
-  let isArrayChanged = false;
+(function (global) {
+  class BubbleSort extends window.BaseSorting {
+    #highlight(args = {}) {
+      const { index: currentIndex } = args;
 
-  let currentArray = document.getElementsByClassName('currentArrayValue')[0];
-
-  const arrayValues = Array.from(currentArray.innerText.split(' '));
-
-  // execute
-  while(!isSorted) {
-    isArrayChanged = false;
-
-    if (arrayValues.length <= 1) {
-      isSorted = true;
-      continue;
-    }
-
-    for (let index = 0; index < arrayValues.length - 1; index += 1) {
-      // bold-highlight used values
-      currentArray.innerHTML = '';
-      arrayValues.forEach((item, i) => {
-        if (i === index) {
-          currentArray.innerHTML = `${currentArray.innerHTML} <div class="bold-highlight">&nbsp${item}&nbsp</div>`;
+      this.currentArray.innerHTML = '';
+      this.arrayValues.forEach((item, i) => {
+        if (i === currentIndex) {
+          this.currentArray.innerHTML = `${this.currentArray.innerHTML} <div class="bold-highlight">&nbsp${item}&nbsp</div>`;
           return;
         }
-
-        if (index + 1 === i) {
-          currentArray.innerHTML = `${currentArray.innerHTML} <div class="bold-highlight">&nbsp${item}&nbsp</div>`;
+  
+        if (currentIndex + 1 === i) {
+          this.currentArray.innerHTML = `${this.currentArray.innerHTML} <div class="bold-highlight">&nbsp${item}&nbsp</div>`;
           return;
         }
-
-        currentArray.innerHTML = `${currentArray.innerHTML} ${item}`;
+  
+        this.currentArray.innerHTML = `${this.currentArray.innerHTML} ${item}`;
       });
-
-      // iterate
-      await new Promise((resolve) => {
+    }
+  
+    #iterate(args = {}) {
+      const { index: currentIndex } = args;
+  
+      return new Promise((resolve) => {
         setTimeout(() => {
-          if (Number(arrayValues[index]) > Number(arrayValues[index + 1])) {
-            let aux = arrayValues[index];
+          if (Number(this.arrayValues[currentIndex]) > Number(this.arrayValues[currentIndex + 1])) {
+            let aux = this.arrayValues[currentIndex];
     
-            arrayValues[index] = arrayValues[index + 1];
+            this.arrayValues[currentIndex] = this.arrayValues[currentIndex + 1];
     
-            arrayValues[index + 1] = aux;
+            this.arrayValues[currentIndex + 1] = aux;
     
-            isArrayChanged = true;
+            args.isArrayChanged = true;
           }
-          currentArray.innerHTML = arrayValues.toString().replaceAll(',', ' ');
+  
+          this.currentArray.innerHTML = this.arrayValues.toString().replaceAll(',', ' ');
           resolve();
         }, 1000);
       });
     }
+  
+    async execute() {
+      let isSorted = false;
+      const args = {
+        isArrayChanged: false,
+        index: 0,
+      }
+    
+      // execute
+      while(!isSorted) {
+        args.isArrayChanged = false;
+    
+        if (this.arrayValues.length <= 1) {
+          isSorted = true;
+          continue;
+        }
+    
+        for (args.index = 0; args.index < this.arrayValues.length - 1; args.index += 1) {
+          // bold-highlight used values
+          this.#highlight(args);
+    
+          // iterate
+          await this.#iterate(args);
+        }
 
-    if (!isArrayChanged) {
-      isSorted = true;
+    
+        if (!args.isArrayChanged) {
+          isSorted = true;
+        }
+      }
     }
   }
-}
+
+  global.BubbleSort = BubbleSort;
+})(window);

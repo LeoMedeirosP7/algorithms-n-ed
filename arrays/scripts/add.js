@@ -1,4 +1,4 @@
-function addValue() {
+function addArrayValue() {
   let currentArray = document.getElementsByClassName('currentArrayValue')[0];
 
   let currentArrayValue = document.getElementById('newValue').value;

@@ -5,11 +5,14 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="./arrays/sorts/bubbleSort.js"></script>
-    <script src="./addValue.js"></script>
-
     <link rel="stylesheet" href="./index.css" />
     <link rel="stylesheet" href="./arrays/styles.css" />
+
+    <script src="./arrays/sorts/base.js"></script>
+    <script src="./arrays/sorts/bubbleSort.js"></script>
+  
+    <script src="./arrays/scripts/sort.js"></script>
+    <script src="./arrays/scripts/add.js"></script>
 
     <title>Algs n EDs</title>
   </head>
@@ -20,11 +23,11 @@
 
     <input type="text" id="newValue" />
 
-    <button onclick="addValue()">
+    <button onclick="addArrayValue()">
       Add Value
     </button>
 
-    <button onclick="bubbleSort()">
+    <button onclick="sort('bubbleSort')">
       Execute bubble
     </button>
   </body>
