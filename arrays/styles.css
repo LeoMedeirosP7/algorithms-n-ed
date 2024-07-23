@@ -1,0 +1,5 @@
+.currentArrayValue {
+  font-size: 30px;
+  display: flex;
+  min-height: 35px;
+}
